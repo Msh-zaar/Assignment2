@@ -1,5 +1,4 @@
 USE [SuperheroesDb]
-GO
 
 INSERT INTO [dbo].[Assistant]
            ([Name]
