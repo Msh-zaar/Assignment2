@@ -14,7 +14,7 @@ namespace DataAccessWithSql
             //Create Read Update Delete
 
             ICustomerRepository repository = new CustomerRepository();
-            TestSelectAll(repository);
+            TestSelect(repository);
             //TestSelect(repository);
 
             static void TestSelectAll(ICustomerRepository repository)
@@ -56,7 +56,7 @@ namespace DataAccessWithSql
 
         private static void PrintCustomer(Customer customer)
         {
-            Console.WriteLine($"--{customer.Id} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} {customer.PhoneNumber} {customer.Email} --");
+            Console.WriteLine($"-- {customer.CustomerId} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} {customer.Phone} {customer.Email} --");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace DataAccessWithSql.Repositories
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerlist = new List<Customer>();
-            string sql = "SELECT Id, FirstName, LastName, Country, PostalCode, PhoneNumber, Email FROM Customer";
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
             try
             {
                 //Connect
@@ -31,13 +31,13 @@ namespace DataAccessWithSql.Repositories
                             {
                                 //Handle result
                                 Customer temp = new Customer();
-                                temp.Id = reader.GetInt32(0);
+                                temp.CustomerId = reader.GetInt32(0);
                                 temp.FirstName = reader.GetString(1);
                                 temp.LastName = reader.GetString(2);
-                                temp.Country = reader.GetString(3);
-                                temp.PostalCode = reader.GetString(4);
-                                temp.PhoneNumber = reader.GetString(5);
-                                temp.Email = reader.GetString(6);
+                                temp.Country = reader.IsDBNull(3) ? "NULL" : reader.GetString(3);
+                                temp.PostalCode = reader.IsDBNull(4) ? "NULL" : reader.GetString(4);
+                                temp.Phone = reader.IsDBNull(5) ? "NULL" : reader.GetString(5);
+                                temp.Email = reader.IsDBNull(6) ? "NULL" : reader.GetString(6);
 
                                 customerlist.Add(temp);
                             }
@@ -55,7 +55,44 @@ namespace DataAccessWithSql.Repositories
 
         public Customer GetCustomer(string id)
         {
-            throw new NotImplementedException();
+            Customer customer = new Customer();
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " + 
+                "WHERE CustomerId = @CustomerId";
+            try
+            {
+                //Connect
+                using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    Console.WriteLine("open");
+                    //Make a command
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        //Reader
+                        cmd.Parameters.AddWithValue("@CustomerId", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                //Handle result
+                                customer.CustomerId = reader.GetInt32(0);
+                                customer.FirstName = reader.GetString(1);
+                                customer.LastName = reader.GetString(2);
+                                customer.Country = reader.IsDBNull(3) ? "NULL" : reader.GetString(3);
+                                customer.PostalCode = reader.IsDBNull(4) ? "NULL" : reader.GetString(4);
+                                customer.Phone = reader.IsDBNull(5) ? "NULL" : reader.GetString(5);
+                                customer.Email = reader.IsDBNull(6) ? "NULL" : reader.GetString(6);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("didnt load");
+
+            }
+            return customer;
         }
         public bool AddNewCustomer(Customer customer)
         {
