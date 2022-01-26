@@ -16,7 +16,8 @@ namespace DataAccessWithSql
             ICustomerRepository repository = new CustomerRepository();
             //TestSelect(repository);
             //TestSelectAll(repository);
-            TestSelectByName(repository, "Hel");
+            //TestSelectByName(repository, "Hel");
+            TestInsert(repository);
 
             static void TestSelectAll(ICustomerRepository repository)
             {
@@ -36,16 +37,20 @@ namespace DataAccessWithSql
 
             static void TestInsert(ICustomerRepository repository)
             {
-                Customer test = new Customer()
+                Customer testCustomer = new Customer()
                 {
-                    //Name = "Brie Larson",
-                    //Alias = "Captain Marvel",
-                    //Origin = "Space"
+                    FirstName = "Hans", 
+                    LastName = "Hansen", 
+                    Country = "Norway", 
+                    PostalCode = "1363", 
+                    Phone = "41500594", 
+                    Email = @"HansHansen@sol.no"
                 };
-                if (repository.AddNewCustomer(test))
+                if (repository.AddNewCustomer(testCustomer))
                 {
                     Console.WriteLine("yaya");
-                } else
+                } 
+                else
                 {
                     Console.WriteLine("naynay");
                 }
