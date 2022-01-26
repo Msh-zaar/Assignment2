@@ -10,21 +10,21 @@ namespace DataAccessWithSql
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             //CRUD
             //Create Read Update Delete
 
             ICustomerRepository repository = new CustomerRepository();
+            ICustomerCountryRepository countryRepository = new CustomerCountryRepository();
+            ICustomerSpenderRepository customerSpenderRepository = new CustomerSpenderRepository();
             //TestSelect(repository);
             //TestSelectAll(repository);
             //TestSelectByName(repository, "Hel");
             //TestSelectLimited(repository, 2, 5);
-
-            TestUpdate(repository);
-
+            //TestUpdate(repository);
             //TestInsert(repository);
             //TestSelectLimited(repository, 2, 5);
-            //PrintCountries(repository);
+            //PrintDescendingCountries(countryRepository); 
+            //PrintHighSpenders(customerSpenderRepository);
 
             static void TestSelectAll(ICustomerRepository repository)
             {
@@ -99,14 +99,31 @@ namespace DataAccessWithSql
                 }
             }
 
-            static void PrintCountries(ICustomerRepository repository)
+            static void PrintDescendingCountries(ICustomerCountryRepository repository)
             {
-                repository.GetCountriesDescendingOrder().Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
+                repository.GetCountriesDescendingOrder()
+                    .Select(i => $"{i.Key}: {i.Value}")
+                    .ToList()
+                    .ForEach(Console.WriteLine);
+            }
+
+            static void PrintHighSpenders(ICustomerSpenderRepository repository)
+            {
+                repository.GetHighSpenders()
+                    .Select(i => $"{i.Key.FirstName} {i.Key.LastName}: {i.Value}")
+                    .ToList()
+                    .ForEach(Console.WriteLine);
             }
         }
         private static void PrintCustomer(Customer customer)
         {
-            Console.WriteLine($"-- {customer.CustomerId} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} {customer.Phone} {customer.Email} --");
+            Console.WriteLine($"-- {customer.CustomerId} " +
+                                $"{customer.FirstName} " +
+                                $"{customer.LastName} " +
+                                $"{customer.Country} " +
+                                $"{customer.PostalCode} " +
+                                $"{customer.Phone} " +
+                                $"{customer.Email} --");
         }
     }
 }

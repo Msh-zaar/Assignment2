@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessWithSql.Models
+namespace DataAccessWithSql.Repositories
 {
-    public class CustomerCountry
+    internal class CustomerGenreRepository
     {
-        public string Name { get; set; }
     }
 }

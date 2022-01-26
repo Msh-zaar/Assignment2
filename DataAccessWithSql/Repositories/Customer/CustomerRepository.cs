@@ -47,8 +47,8 @@ namespace DataAccessWithSql.Repositories
             }
             catch (SqlException ex)
             {
-                Console.WriteLine("didnt load");
-                 
+                Console.WriteLine("Couldn't Load" + ex);
+
             }
             return customerlist;
         }
@@ -91,7 +91,7 @@ namespace DataAccessWithSql.Repositories
             }
             catch (SqlException ex)
             {
-                Console.WriteLine("didnt load");
+                Console.WriteLine("Couldn't Load" + ex);
 
             }
             return customerlist;
@@ -133,7 +133,7 @@ namespace DataAccessWithSql.Repositories
             }
             catch (SqlException ex)
             {
-                Console.WriteLine("didnt load");
+                Console.WriteLine("Couldn't Load" + ex);
 
             }
             return customer;
@@ -249,61 +249,10 @@ namespace DataAccessWithSql.Repositories
             }
             catch (SqlException ex)
             {
-                Console.WriteLine("didnt load");
+                Console.WriteLine("Couldn't Load" + ex);
 
             }
             return success;
         }
-        
-        Dictionary<string, int> ICustomerRepository.GetCountriesDescendingOrder()
-        {
-            Dictionary<string, int> countries = new();
-
-            string sql = "SELECT Country, count(*) as Count " +
-                        "FROM Customer " +
-                        "GROUP BY Country " +
-                        "ORDER BY Count DESC";
-            try
-            {
-                //Connect
-                using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
-                {
-                    conn.Open();
-                    //Make a command
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    {
-                        //Reader
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var country = reader.GetString(0);
-                                var count = reader.GetInt32(1);
-                                countries[country] = count;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine("Couldn't Load" + ex);
-
-            }
-            return countries;
-        }
-        //SELECT Customer.CustomerId, COUNT(Customer.CustomerId) as Count, Genre.Name
-        //FROM InvoiceLine
-        //INNER JOIN Invoice
-        //ON InvoiceLine.InvoiceId = Invoice.InvoiceId
-        //INNER JOIN Track
-        //ON InvoiceLine.TrackId = Track.TrackId
-        //LEFT JOIN Customer
-        //ON Invoice.CustomerId = Customer.CustomerId
-        //LEFT JOIN Genre
-        //ON Track.GenreId = Genre.GenreId
-        //WHERE Customer.CustomerId = 1
-        //GROUP BY Genre.Name, Customer.CustomerId
-        //ORDER BY Count DESC
     }
 }
