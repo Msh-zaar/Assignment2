@@ -181,7 +181,37 @@ namespace DataAccessWithSql.Repositories
         }
         public bool AddNewCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            bool success = false;
+            try
+            {
+                using (var conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
+                {
+                    string sql = 
+                        "INSERT INTO Customer (Firstname, LastName, Country, PostalCode, Phone, Email) " +
+                        "VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
+
+                    conn.Open();
+                    Console.WriteLine("open");
+                    //Make a command
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.Phone);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+
+                        success = cmd.ExecuteNonQuery() > 0 ? true : false;
+                        return success;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Couldn't Load" + ex);
+            }
+            return success;
         }
 
         public bool DeleteCustomer(string id)
@@ -223,6 +253,50 @@ namespace DataAccessWithSql.Repositories
 
             }
             return success;
+        }
+        /// <summary>
+        /// SELECT Country, count(*) as Count
+        /// FROM Customer
+        /// GROUP BY Country
+        /// ORDER BY Count DESC
+        /// </summary>
+        /// <param name="repository"></param>
+        Dictionary<string, int> ICustomerRepository.GetCountriesDescendingOrder()
+        {
+            Dictionary<string, int> countries = new();
+
+            string sql = "SELECT Country, count(*) as Count " +
+                        "FROM Customer " +
+                        "GROUP BY Country " +
+                        "ORDER BY Count DESC";
+            try
+            {
+                //Connect
+                using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    //Make a command
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        //Reader
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var country = reader.GetString(0);
+                                var count = reader.GetInt32(1);
+                                countries[country] = count;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Couldn't Load" + ex);
+
+            }
+            return countries;
         }
     }
 }
