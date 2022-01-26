@@ -13,8 +13,7 @@ namespace DataAccessWithSql.Repositories
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerlist = new List<Customer>();
-            string sql = "SELECT TOP 5 CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " +
-                "OFFSET 2";
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer ";
             try
             {
                 //Connect
@@ -50,6 +49,50 @@ namespace DataAccessWithSql.Repositories
             {
                 Console.WriteLine("didnt load");
                  
+            }
+            return customerlist;
+        }
+
+        public List<Customer> GetLimitedCustomers(int offset, int fetch)
+        {
+            List<Customer> customerlist = new List<Customer>();
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " +
+                $"ORDER BY CustomerId OFFSET {offset} ROWS FETCH NEXT {fetch} ROWS ONLY";
+            try
+            {
+                //Connect
+                using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    Console.WriteLine("open");
+                    //Make a command
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        //Reader
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                //Handle result
+                                Customer temp = new Customer();
+                                temp.CustomerId = reader.GetInt32(0);
+                                temp.FirstName = reader.GetString(1);
+                                temp.LastName = reader.GetString(2);
+                                temp.Country = reader.IsDBNull(3) ? "NULL" : reader.GetString(3);
+                                temp.PostalCode = reader.IsDBNull(4) ? "NULL" : reader.GetString(4);
+                                temp.Phone = reader.IsDBNull(5) ? "NULL" : reader.GetString(5);
+                                temp.Email = reader.IsDBNull(6) ? "NULL" : reader.GetString(6);
+
+                                customerlist.Add(temp);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("didnt load");
+
             }
             return customerlist;
         }

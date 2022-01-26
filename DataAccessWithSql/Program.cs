@@ -17,13 +17,23 @@ namespace DataAccessWithSql
             //TestSelect(repository);
             //TestSelectAll(repository);
             //TestSelectByName(repository, "Hel");
-            TestInsert(repository);
+
+            //TestInsert(repository);
+
+            TestSelectLimited(repository, 2, 5);
+            
+
 
             static void TestSelectAll(ICustomerRepository repository)
             {
                 PrintCustomers(repository.GetAllCustomers());
-               
-            } 
+            }
+
+            static void TestSelectLimited(ICustomerRepository repository, int offset, int fetch)
+            {
+                PrintCustomers(repository.GetLimitedCustomers(offset, fetch));
+
+            }
 
             static void TestSelect(ICustomerRepository repository)
             {
