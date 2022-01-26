@@ -18,9 +18,13 @@ namespace DataAccessWithSql
             //TestSelect(repository);
             //TestSelectAll(repository);
             //TestSelectByName(repository, "Hel");
+            //TestSelectLimited(repository, 2, 5);
+
+            TestUpdate(repository);
+
             //TestInsert(repository);
             //TestSelectLimited(repository, 2, 5);
-            PrintCountries(repository);
+            //PrintCountries(repository);
 
             static void TestSelectAll(ICustomerRepository repository)
             {
@@ -64,6 +68,29 @@ namespace DataAccessWithSql
                 }
             }
 
+            static void TestUpdate(ICustomerRepository repository)
+            {
+                Customer test = new Customer()
+                {
+                    CustomerId = 2,
+                    FirstName = "Jon",
+                    LastName = "Johnson",
+                    Country = "Norway",
+                    PostalCode = "0169",
+                    Phone = "12332112",
+                    Email = "jon.johnson@piczo.com"
+                };
+                if (repository.UpdateCustomer(test))
+                {
+                    Console.WriteLine("yaya");
+                    PrintCustomer(repository.GetCustomer(test.CustomerId.ToString()));
+                }
+                else
+                {
+                    Console.WriteLine("naynay");
+                }
+            }
+            
             static void PrintCustomers(IEnumerable<Customer> customers)
             {
                 foreach (Customer customer in customers)

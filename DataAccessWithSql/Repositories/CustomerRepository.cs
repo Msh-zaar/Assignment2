@@ -221,7 +221,38 @@ namespace DataAccessWithSql.Repositories
 
         public bool UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            bool success = false;
+            string sql = "UPDATE Customer SET FirstName = @FistName, LastName = @LastName, " + 
+                "Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email " + 
+                "WHERE CustomerId = @CustomerId";
+            try
+            {
+                //Connect
+                using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    Console.WriteLine("open");
+                    //Make a command
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@CustomerId", customer.CustomerId);
+                        cmd.Parameters.AddWithValue("@FistName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.Phone);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+                        
+                        success = cmd.ExecuteNonQuery() > 0 ? true : false;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("didnt load");
+
+            }
+            return success;
         }
         /// <summary>
         /// SELECT Country, count(*) as Count
