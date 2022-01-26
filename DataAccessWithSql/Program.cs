@@ -14,8 +14,8 @@ namespace DataAccessWithSql
             //Create Read Update Delete
 
             ICustomerRepository repository = new CustomerRepository();
-            TestSelect(repository);
             //TestSelect(repository);
+            TestSelectAll(repository);
 
             static void TestSelectAll(ICustomerRepository repository)
             {

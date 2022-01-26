@@ -13,7 +13,8 @@ namespace DataAccessWithSql.Repositories
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerlist = new List<Customer>();
-            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
+            string sql = "SELECT TOP 5 CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " +
+                "OFFSET 2";
             try
             {
                 //Connect
