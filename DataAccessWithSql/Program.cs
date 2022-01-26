@@ -10,21 +10,24 @@ namespace DataAccessWithSql
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             //CRUD
             //Create Read Update Delete
 
             ICustomerRepository repository = new CustomerRepository();
+            ICustomerCountryRepository countryRepository = new CustomerCountryRepository();
+            ICustomerSpenderRepository customerSpenderRepository = new CustomerSpenderRepository();
+            ICustomerGenreRepository customerGenreRepository = new CustomerGenreRepository();
+
             //TestSelect(repository);
             //TestSelectAll(repository);
             //TestSelectByName(repository, "Hel");
             //TestSelectLimited(repository, 2, 5);
-
-            TestUpdate(repository);
-
+            //TestUpdate(repository);
             //TestInsert(repository);
             //TestSelectLimited(repository, 2, 5);
-            //PrintCountries(repository);
+            //PrintDescendingCountries(countryRepository); 
+            //PrintHighSpenders(customerSpenderRepository);
+            //TestCustomerGenre(customerGenreRepository);
 
             static void TestSelectAll(ICustomerRepository repository)
             {
@@ -99,14 +102,47 @@ namespace DataAccessWithSql
                 }
             }
 
-            static void PrintCountries(ICustomerRepository repository)
+            static void TestCustomerGenre(ICustomerGenreRepository repository)
             {
-                repository.GetCountriesDescendingOrder().Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
+                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("1"));
+                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("12")); // Multiple favourite genres
+            }
+
+            static void PrintDescendingCountries(ICustomerCountryRepository repository)
+            {
+                repository.GetCountriesDescendingOrder()
+                    .Select(i => $"{i.Key}: {i.Value}")
+                    .ToList()
+                    .ForEach(Console.WriteLine);
+            }
+
+            static void PrintHighSpenders(ICustomerSpenderRepository repository)
+            {
+                repository.GetHighSpenders()
+                    .Select(i => $"{i.Key.FirstName} {i.Key.LastName}: {i.Value}")
+                    .ToList()
+                    .ForEach(Console.WriteLine);
             }
         }
         private static void PrintCustomer(Customer customer)
         {
-            Console.WriteLine($"-- {customer.CustomerId} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} {customer.Phone} {customer.Email} --");
+            Console.WriteLine($"-- {customer.CustomerId} " +
+                                $"{customer.FirstName} " +
+                                $"{customer.LastName} " +
+                                $"{customer.Country} " +
+                                $"{customer.PostalCode} " +
+                                $"{customer.Phone} " +
+                                $"{customer.Email} --");
+        }
+        private static void PrintCustomerGenre(CustomerGenre customerGenre)
+        {
+            string genre = customerGenre.MostListenedGenre.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+            int amountListened = customerGenre.MostListenedGenre.Values.Max();
+
+            Console.WriteLine($"{customerGenre.FirstName} {customerGenre.LastName}: ");
+            customerGenre.MostListenedGenre.Select(i => $"{i.Key}: {i.Value}")
+                    .ToList()
+                    .ForEach(Console.WriteLine);
         }
     }
 }
