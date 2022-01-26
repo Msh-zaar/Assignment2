@@ -11,6 +11,7 @@ namespace DataAccessWithSql.Repositories
     {
         //CRUD
         public Customer GetCustomer(string id);
+        public Customer GetCustomerByName(string name);
         public List<Customer> GetAllCustomers();
         public List<Customer> GetLimitedCustomers(int offset, int fetch);
         public bool AddNewCustomer(Customer customer);
