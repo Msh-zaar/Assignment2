@@ -12,19 +12,10 @@ Building a console application that performs CRUD operations against a database.
 - [Contributing](#contributing)
 - [License](#license)
 
-## Install
-
-```
-```
-
-## Usage
-
-```
-```
-
 ## Maintainers
 
 [@msh-zaar](https://github.com/msh-zaar)
+[@vilgeir]
 
 ## Contributing
 
