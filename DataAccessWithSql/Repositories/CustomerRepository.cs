@@ -254,13 +254,7 @@ namespace DataAccessWithSql.Repositories
             }
             return success;
         }
-        /// <summary>
-        /// SELECT Country, count(*) as Count
-        /// FROM Customer
-        /// GROUP BY Country
-        /// ORDER BY Count DESC
-        /// </summary>
-        /// <param name="repository"></param>
+        
         Dictionary<string, int> ICustomerRepository.GetCountriesDescendingOrder()
         {
             Dictionary<string, int> countries = new();
@@ -298,5 +292,18 @@ namespace DataAccessWithSql.Repositories
             }
             return countries;
         }
+        //SELECT Customer.CustomerId, COUNT(Customer.CustomerId) as Count, Genre.Name
+        //FROM InvoiceLine
+        //INNER JOIN Invoice
+        //ON InvoiceLine.InvoiceId = Invoice.InvoiceId
+        //INNER JOIN Track
+        //ON InvoiceLine.TrackId = Track.TrackId
+        //LEFT JOIN Customer
+        //ON Invoice.CustomerId = Customer.CustomerId
+        //LEFT JOIN Genre
+        //ON Track.GenreId = Genre.GenreId
+        //WHERE Customer.CustomerId = 1
+        //GROUP BY Genre.Name, Customer.CustomerId
+        //ORDER BY Count DESC
     }
 }
