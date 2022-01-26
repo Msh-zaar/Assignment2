@@ -16,6 +16,8 @@ namespace DataAccessWithSql
             ICustomerRepository repository = new CustomerRepository();
             ICustomerCountryRepository countryRepository = new CustomerCountryRepository();
             ICustomerSpenderRepository customerSpenderRepository = new CustomerSpenderRepository();
+            ICustomerGenreRepository customerGenreRepository = new CustomerGenreRepository();
+
             //TestSelect(repository);
             //TestSelectAll(repository);
             //TestSelectByName(repository, "Hel");
@@ -25,6 +27,7 @@ namespace DataAccessWithSql
             //TestSelectLimited(repository, 2, 5);
             //PrintDescendingCountries(countryRepository); 
             //PrintHighSpenders(customerSpenderRepository);
+            //TestCustomerGenre(customerGenreRepository);
 
             static void TestSelectAll(ICustomerRepository repository)
             {
@@ -99,6 +102,12 @@ namespace DataAccessWithSql
                 }
             }
 
+            static void TestCustomerGenre(ICustomerGenreRepository repository)
+            {
+                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("1"));
+                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("12")); // Multiple favourite genres
+            }
+
             static void PrintDescendingCountries(ICustomerCountryRepository repository)
             {
                 repository.GetCountriesDescendingOrder()
@@ -124,6 +133,16 @@ namespace DataAccessWithSql
                                 $"{customer.PostalCode} " +
                                 $"{customer.Phone} " +
                                 $"{customer.Email} --");
+        }
+        private static void PrintCustomerGenre(CustomerGenre customerGenre)
+        {
+            string genre = customerGenre.MostListenedGenre.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+            int amountListened = customerGenre.MostListenedGenre.Values.Max();
+
+            Console.WriteLine($"{customerGenre.FirstName} {customerGenre.LastName}: ");
+            customerGenre.MostListenedGenre.Select(i => $"{i.Key}: {i.Value}")
+                    .ToList()
+                    .ForEach(Console.WriteLine);
         }
     }
 }
