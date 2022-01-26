@@ -6,8 +6,6 @@ Building a console application that performs CRUD operations against a database.
 
 ## Table of Contents
 
-- [Install](#install)
-- [Usage](#usage)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
 - [License](#license)
@@ -15,7 +13,7 @@ Building a console application that performs CRUD operations against a database.
 ## Maintainers
 
 [@msh-zaar](https://github.com/msh-zaar)
-[@vilgeir]
+[@vilgeir](https://github.com/Vilgeir)
 
 ## Contributing
 
