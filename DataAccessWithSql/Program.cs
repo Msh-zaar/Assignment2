@@ -2,6 +2,7 @@
 using DataAccessWithSql.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataAccessWithSql
 {
@@ -17,12 +18,9 @@ namespace DataAccessWithSql
             //TestSelect(repository);
             //TestSelectAll(repository);
             //TestSelectByName(repository, "Hel");
-
             //TestInsert(repository);
-
-            TestSelectLimited(repository, 2, 5);
-            
-
+            //TestSelectLimited(repository, 2, 5);
+            PrintCountries(repository);
 
             static void TestSelectAll(ICustomerRepository repository)
             {
@@ -65,7 +63,7 @@ namespace DataAccessWithSql
                     Console.WriteLine("naynay");
                 }
             }
-             
+
             static void PrintCustomers(IEnumerable<Customer> customers)
             {
                 foreach (Customer customer in customers)
@@ -73,8 +71,12 @@ namespace DataAccessWithSql
                     PrintCustomer(customer);
                 }
             }
-        }
 
+            static void PrintCountries(ICustomerRepository repository)
+            {
+                repository.GetCountriesDescendingOrder().Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
+            }
+        }
         private static void PrintCustomer(Customer customer)
         {
             Console.WriteLine($"-- {customer.CustomerId} {customer.FirstName} {customer.LastName} {customer.Country} {customer.PostalCode} {customer.Phone} {customer.Email} --");
