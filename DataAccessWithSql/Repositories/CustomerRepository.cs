@@ -95,6 +95,47 @@ namespace DataAccessWithSql.Repositories
             }
             return customer;
         }
+        Customer ICustomerRepository.GetCustomerByName(string name)
+        {
+            Customer customer = new Customer();
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " +
+                "WHERE FirstName LIKE @FirstName";
+            try
+            {
+                //Connect
+                using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    Console.WriteLine("open");
+                    //Make a command
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        //Reader
+                        cmd.Parameters.AddWithValue("@FirstName", name + "%");
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                //Handle result
+                                customer.CustomerId = reader.GetInt32(0);
+                                customer.FirstName = reader.GetString(1);
+                                customer.LastName = reader.GetString(2);
+                                customer.Country = reader.IsDBNull(3) ? "NULL" : reader.GetString(3);
+                                customer.PostalCode = reader.IsDBNull(4) ? "NULL" : reader.GetString(4);
+                                customer.Phone = reader.IsDBNull(5) ? "NULL" : reader.GetString(5);
+                                customer.Email = reader.IsDBNull(6) ? "NULL" : reader.GetString(6);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Couldn't Load" + ex);
+
+            }
+            return customer;
+        }
         public bool AddNewCustomer(Customer customer)
         {
             throw new NotImplementedException();

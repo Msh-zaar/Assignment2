@@ -15,7 +15,8 @@ namespace DataAccessWithSql
 
             ICustomerRepository repository = new CustomerRepository();
             //TestSelect(repository);
-            TestSelectAll(repository);
+            //TestSelectAll(repository);
+            TestSelectByName(repository, "H");
 
             static void TestSelectAll(ICustomerRepository repository)
             {
@@ -26,6 +27,11 @@ namespace DataAccessWithSql
             static void TestSelect(ICustomerRepository repository)
             {
                 PrintCustomer(repository.GetCustomer("1"));
+            }
+
+            static void TestSelectByName(ICustomerRepository repository, string name)
+            {
+                PrintCustomer(repository.GetCustomer(name));
             }
 
             static void TestInsert(ICustomerRepository repository)
