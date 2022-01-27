@@ -10,9 +10,9 @@ namespace DataAccessWithSql.Repositories
 {
     public class CustomerCountryRepository : ICustomerCountryRepository
     {
-        public Dictionary<CustomerCountry, int> GetCountriesDescendingOrder()
+        public List<CustomerCountry> GetCountriesDescendingOrder()
         {
-            Dictionary<CustomerCountry, int> countries = new();
+            List<CustomerCountry> countries = new List<CustomerCountry>();
 
             string sql = "SELECT Country, count(*) as Count " +
                         "FROM Customer " +
@@ -34,8 +34,8 @@ namespace DataAccessWithSql.Repositories
                             {
                                 CustomerCountry customerCountry = new CustomerCountry();
                                 customerCountry.Name = reader.GetString(0);
-                                var count = reader.GetInt32(1);
-                                countries[customerCountry] = count;
+                                customerCountry.Count = reader.GetInt32(1);
+                                countries.Add(customerCountry);
                             }
                         }
                     }

@@ -20,8 +20,7 @@ namespace DataAccessWithSql.Repositories
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    Console.WriteLine("open");
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         //Reader
@@ -64,8 +63,7 @@ namespace DataAccessWithSql.Repositories
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    Console.WriteLine("open");
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         //Reader
@@ -100,7 +98,9 @@ namespace DataAccessWithSql.Repositories
         public Customer GetCustomer(string id)
         {
             Customer customer = new Customer();
-            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " + 
+            string sql = 
+                "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                "FROM Customer " + 
                 "WHERE CustomerId = @CustomerId";
             try
             {
@@ -108,8 +108,7 @@ namespace DataAccessWithSql.Repositories
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    Console.WriteLine("open");
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         //Reader
@@ -134,14 +133,16 @@ namespace DataAccessWithSql.Repositories
             catch (SqlException ex)
             {
                 Console.WriteLine("Couldn't Load" + ex);
-
             }
             return customer;
+
         }
         Customer ICustomerRepository.GetCustomerByName(string name)
         {
             Customer customer = new Customer();
-            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " +
+            string sql = 
+                "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                "FROM Customer " +
                 "WHERE FirstName LIKE @FirstName";
             try
             {
@@ -149,8 +150,7 @@ namespace DataAccessWithSql.Repositories
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    Console.WriteLine("open");
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         //Reader
@@ -175,7 +175,6 @@ namespace DataAccessWithSql.Repositories
             catch (SqlException ex)
             {
                 Console.WriteLine("Couldn't Load" + ex);
-
             }
             return customer;
         }
@@ -191,8 +190,7 @@ namespace DataAccessWithSql.Repositories
                         "VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
 
                     conn.Open();
-                    Console.WriteLine("open");
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
@@ -222,7 +220,8 @@ namespace DataAccessWithSql.Repositories
         public bool UpdateCustomer(Customer customer)
         {
             bool success = false;
-            string sql = "UPDATE Customer SET FirstName = @FistName, LastName = @LastName, " + 
+            string sql = 
+                "UPDATE Customer SET FirstName = @FistName, LastName = @LastName, " + 
                 "Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email " + 
                 "WHERE CustomerId = @CustomerId";
             try
@@ -250,7 +249,6 @@ namespace DataAccessWithSql.Repositories
             catch (SqlException ex)
             {
                 Console.WriteLine("Couldn't Load" + ex);
-
             }
             return success;
         }

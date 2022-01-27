@@ -9,6 +9,6 @@ namespace DataAccessWithSql.Repositories
 {
     public interface ICustomerSpenderRepository
     {
-        Dictionary<CustomerSpender, decimal> GetHighSpenders();
+        public List<CustomerSpender> GetHighSpenders();
     }
 }

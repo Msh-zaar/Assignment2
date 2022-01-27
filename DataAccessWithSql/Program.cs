@@ -18,40 +18,41 @@ namespace DataAccessWithSql
             ICustomerSpenderRepository customerSpenderRepository = new CustomerSpenderRepository();
             ICustomerGenreRepository customerGenreRepository = new CustomerGenreRepository();
 
-            //TestSelect(repository);
-            //TestSelectAll(repository);
-            //TestSelectByName(repository, "Hel");
-            //TestSelectLimited(repository, 2, 5);
-            //TestUpdate(repository);
-            //TestInsert(repository);
-            //TestSelectLimited(repository, 2, 5);
-            //PrintDescendingCountries(countryRepository); 
-            //PrintHighSpenders(customerSpenderRepository);
-            //TestCustomerGenre(customerGenreRepository);
-
-            static void TestSelectAll(ICustomerRepository repository)
-            {
-                PrintCustomers(repository.GetAllCustomers());
-            }
-
-            static void TestSelectLimited(ICustomerRepository repository, int offset, int fetch)
-            {
-                PrintCustomers(repository.GetLimitedCustomers(offset, fetch));
-
-            }
+            TestSelect(repository);
+            TestSelectAll(repository);
+            TestSelectByName(repository, "Hel");
+            TestSelectLimited(repository, 2, 5);
+            TestInsert(repository);
+            TestUpdate(repository);
+            TestDescendingCountries(countryRepository); 
+            TestHighSpenders(customerSpenderRepository);
+            TestCustomerGenre(customerGenreRepository);
 
             static void TestSelect(ICustomerRepository repository)
             {
+                Console.WriteLine("TestSelect:");
                 PrintCustomer(repository.GetCustomer("1"));
             }
+            static void TestSelectAll(ICustomerRepository repository)
+            {
+                Console.WriteLine("TestSelectAll:");
+                PrintCustomers(repository.GetAllCustomers());
+            }
+            static void TestSelectLimited(ICustomerRepository repository, int offset, int fetch)
+            {
+                Console.WriteLine("TestSelectLimited:");
+                PrintCustomers(repository.GetLimitedCustomers(offset, fetch));
 
+            }
             static void TestSelectByName(ICustomerRepository repository, string name)
             {
+                Console.WriteLine("TestSelectByName:");
                 PrintCustomer(repository.GetCustomerByName(name));
             }
 
             static void TestInsert(ICustomerRepository repository)
             {
+                Console.WriteLine("TestInsert:");
                 Customer testCustomer = new Customer()
                 {
                     FirstName = "Hans", 
@@ -63,16 +64,17 @@ namespace DataAccessWithSql
                 };
                 if (repository.AddNewCustomer(testCustomer))
                 {
-                    Console.WriteLine("yaya");
+                    Console.WriteLine("Insert Successful!");
                 } 
                 else
                 {
-                    Console.WriteLine("naynay");
+                    Console.WriteLine("Insert Failed!");
                 }
             }
 
             static void TestUpdate(ICustomerRepository repository)
             {
+                Console.WriteLine("TestUpdate:");
                 Customer test = new Customer()
                 {
                     CustomerId = 2,
@@ -85,60 +87,66 @@ namespace DataAccessWithSql
                 };
                 if (repository.UpdateCustomer(test))
                 {
-                    Console.WriteLine("yaya");
+                    Console.WriteLine("Update Successful!");
                     PrintCustomer(repository.GetCustomer(test.CustomerId.ToString()));
                 }
                 else
                 {
-                    Console.WriteLine("naynay");
-                }
-            }
-            
-            static void PrintCustomers(IEnumerable<Customer> customers)
-            {
-                foreach (Customer customer in customers)
-                {
-                    PrintCustomer(customer);
+                    Console.WriteLine("Update Failed!");
                 }
             }
 
             static void TestCustomerGenre(ICustomerGenreRepository repository)
             {
+                Console.WriteLine("TestCustomerGenre:");
                 PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("1"));
                 PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("12")); // Multiple favourite genres
             }
 
-            static void PrintDescendingCountries(ICustomerCountryRepository repository)
+            static void TestDescendingCountries(ICustomerCountryRepository repository)
             {
-                repository.GetCountriesDescendingOrder()
-                    .Select(i => $"{i.Key}: {i.Value}")
-                    .ToList()
-                    .ForEach(Console.WriteLine);
+                Console.WriteLine("TestDescendingCountries:");
+                PrintCustomerCountry(repository.GetCountriesDescendingOrder());
             }
 
-            static void PrintHighSpenders(ICustomerSpenderRepository repository)
+            static void TestHighSpenders(ICustomerSpenderRepository repository)
             {
-                repository.GetHighSpenders()
-                    .Select(i => $"{i.Key.FirstName} {i.Key.LastName}: {i.Value}")
-                    .ToList()
-                    .ForEach(Console.WriteLine);
+                Console.WriteLine("TestHighSpenders");
+                PrintCustomerSpender(repository.GetHighSpenders());
             }
         }
-        private static void PrintCustomer(Customer customer)
+        static void PrintCustomers(IEnumerable<Customer> customers)
         {
-            Console.WriteLine($"-- {customer.CustomerId} " +
+            foreach (Customer customer in customers)
+            {
+                PrintCustomer(customer);
+            }
+        }
+        static void PrintCustomer(Customer customer)
+        {
+            Console.WriteLine($"{customer.CustomerId} " +
                                 $"{customer.FirstName} " +
                                 $"{customer.LastName} " +
                                 $"{customer.Country} " +
                                 $"{customer.PostalCode} " +
                                 $"{customer.Phone} " +
-                                $"{customer.Email} --");
+                                $"{customer.Email}");
         }
-        private static void PrintCustomerGenre(CustomerGenre customerGenre)
+        
+        static void PrintCustomerCountry(List<CustomerCountry> customerCountry)
         {
-            string genre = customerGenre.MostListenedGenre.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-            int amountListened = customerGenre.MostListenedGenre.Values.Max();
-
+            customerCountry.Select(i => $"{i.Name}: {i.Count}")
+                .ToList()
+                .ForEach(Console.WriteLine);
+        }
+        static void PrintCustomerSpender(List<CustomerSpender> customerSpender)
+        {
+            customerSpender.Select(i => $"{i.FirstName} {i.LastName}: {i.Total}")
+                .ToList()
+                .ForEach(Console.WriteLine);
+        }
+        static void PrintCustomerGenre(CustomerGenre customerGenre)
+        {
             Console.WriteLine($"{customerGenre.FirstName} {customerGenre.LastName}: ");
             customerGenre.MostListenedGenre.Select(i => $"{i.Key}: {i.Value}")
                     .ToList()

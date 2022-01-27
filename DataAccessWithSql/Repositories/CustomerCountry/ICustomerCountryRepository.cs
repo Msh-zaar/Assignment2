@@ -9,6 +9,6 @@ namespace DataAccessWithSql.Repositories
 {
     public interface ICustomerCountryRepository
     {
-        public Dictionary<CustomerCountry, int> GetCountriesDescendingOrder();
+        public List<CustomerCountry> GetCountriesDescendingOrder();
     }
 }
