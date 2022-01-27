@@ -33,7 +33,7 @@ namespace DataAccessWithSql.Repositories
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@CustomerId", id);

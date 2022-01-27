@@ -10,21 +10,22 @@ namespace DataAccessWithSql.Repositories
 {
     public class CustomerSpenderRepository : ICustomerSpenderRepository
     {
-        public Dictionary<CustomerSpender, decimal> GetHighSpenders()
+        public List<CustomerSpender> GetHighSpenders()
         {
-            Dictionary<CustomerSpender, decimal> highRollers = new();
-            string sql = "SELECT Customer.CustomerId, Total, Customer.FirstName, Customer.LastName " +
-                        "FROM Invoice " +
-                        "INNER JOIN Customer " +
-                        "ON Invoice.CustomerId = Customer.CustomerId " +
-                        "ORDER BY Total DESC ";
+            List<CustomerSpender> spenders = new List<CustomerSpender>();
+            string sql = 
+                "SELECT Total, Customer.FirstName, Customer.LastName " +
+                "FROM Invoice " +
+                "INNER JOIN Customer " +
+                "ON Invoice.CustomerId = Customer.CustomerId " +
+                "ORDER BY Total DESC ";
             try
             {
                 //Connect
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         //Reader
@@ -32,13 +33,11 @@ namespace DataAccessWithSql.Repositories
                         {
                             while (reader.Read())
                             {
-                                CustomerSpender customer = new();
-                                decimal total;
-                                customer.CustomerId = reader.GetInt32(0);
-                                total = reader.GetDecimal(1);
-                                customer.FirstName = reader.GetString(2);
-                                customer.LastName = reader.GetString(3);
-                                highRollers[customer] = total;
+                                CustomerSpender customerSpender = new CustomerSpender();
+                                customerSpender.Total = reader.GetDecimal(0);
+                                customerSpender.FirstName = reader.GetString(1);
+                                customerSpender.LastName = reader.GetString(2);
+                                spenders.Add(customerSpender);
                             }
                         }
                     }
@@ -48,7 +47,7 @@ namespace DataAccessWithSql.Repositories
             {
                 Console.WriteLine("Couldn't Load" + ex);
             }
-            return highRollers;
+            return spenders;
         }
     }
 }

@@ -9,10 +9,14 @@ namespace DataAccessWithSql.Repositories
 {
     public class ConnectionStringHelper
     {
+        /// <summary>
+        /// Method that sets up a connection string based on SqlConnectionStringBuilder
+        /// </summary>
+        /// <returns>A ConnectionString</returns>
         public static string GetConnectionString()
         {
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder();
-            connectionStringBuilder.DataSource = @"DESKTOP-8LK9FE7\SQLEXPRESS";
+            connectionStringBuilder.DataSource = @"ND-5CG8473X7D\SQLEXPRESS";
             connectionStringBuilder.InitialCatalog = "Chinook";
             connectionStringBuilder.IntegratedSecurity = true;
             connectionStringBuilder.TrustServerCertificate = true;
