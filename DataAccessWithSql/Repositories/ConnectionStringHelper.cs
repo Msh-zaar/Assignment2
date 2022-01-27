@@ -16,7 +16,7 @@ namespace DataAccessWithSql.Repositories
         public static string GetConnectionString()
         {
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder();
-            connectionStringBuilder.DataSource = @"ND-5CG8473X7D\SQLEXPRESS";
+            connectionStringBuilder.DataSource = @"DESKTOP-MJQMMB2\SQLEXPRESS";
             connectionStringBuilder.InitialCatalog = "Chinook";
             connectionStringBuilder.IntegratedSecurity = true;
             connectionStringBuilder.TrustServerCertificate = true;

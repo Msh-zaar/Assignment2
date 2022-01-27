@@ -43,9 +43,9 @@ namespace DataAccessWithSql.Repositories
                             while (reader.Read())
                             {
                                 customerGenre.FirstName = reader.GetString(0);
-                                customerGenre.LastName = reader.GetString(1);
-                                string genre = reader.GetString(3);
+                                customerGenre.LastName = reader.GetString(1);                              
                                 int amount = reader.GetInt32(2);
+                                string genre = reader.GetString(3);
                                 if (customerGenre.MostListenedGenre.Count == 0)
                                 {
                                     customerGenre.MostListenedGenre[genre] = amount;

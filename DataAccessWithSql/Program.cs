@@ -31,24 +31,28 @@ namespace DataAccessWithSql
             TestCustomerGenre(customerGenreRepository);
 
             //Test method bodies
+
             //Task 1
             static void TestSelectAll(ICustomerRepository repository)
             {
                 Console.WriteLine("TestSelectAll:");
                 PrintCustomers(repository.GetAllCustomers());
             }
+
             //Task 2
             static void TestSelect(ICustomerRepository repository)
             {
                 Console.WriteLine("TestSelect:");
                 PrintCustomer(repository.GetCustomer("1"));
             }
+
             //Task 3
             static void TestSelectByName(ICustomerRepository repository, string name)
             {
                 Console.WriteLine("TestSelectByName:");
                 PrintCustomer(repository.GetCustomerByName(name));
             }
+
             //Task 4
             static void TestSelectLimited(ICustomerRepository repository, int offset, int fetch)
             {
@@ -56,6 +60,7 @@ namespace DataAccessWithSql
                 PrintCustomers(repository.GetLimitedCustomers(offset, fetch));
 
             }
+
             //Task 5
             static void TestInsert(ICustomerRepository repository)
             {
@@ -78,6 +83,7 @@ namespace DataAccessWithSql
                     Console.WriteLine("Insert Failed!");
                 }
             }
+
             //Task 6
             static void TestUpdate(ICustomerRepository repository)
             {
@@ -102,18 +108,21 @@ namespace DataAccessWithSql
                     Console.WriteLine("Update Failed!");
                 }
             }
+
             //Task 7
             static void TestDescendingCountries(ICustomerCountryRepository repository)
             {
                 Console.WriteLine("TestDescendingCountries:");
                 PrintCustomerCountry(repository.GetCountriesDescendingOrder());
             }
+
             //Task 8
             static void TestHighSpenders(ICustomerSpenderRepository repository)
             {
                 Console.WriteLine("TestHighSpenders:");
                 PrintCustomerSpender(repository.GetHighSpenders());
             }
+
             //Task 9
             static void TestCustomerGenre(ICustomerGenreRepository repository)
             {
@@ -122,6 +131,7 @@ namespace DataAccessWithSql
                 PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("12")); // Multiple favourite genres
             }
         }
+
         /// <summary>
         /// Loops through an IEnumerable<Customer> and calls PrintCustomer on each element
         /// </summary>
@@ -133,6 +143,7 @@ namespace DataAccessWithSql
                 PrintCustomer(customer);
             }
         }
+
         /// <summary>
         /// Prints relevant attributes of a Customer
         /// </summary>
@@ -147,6 +158,7 @@ namespace DataAccessWithSql
                                 $"{customer.Phone} " +
                                 $"{customer.Email}");
         }
+
         /// <summary>
         /// Prints name and count of all CustomerCountry
         /// </summary>
@@ -157,6 +169,7 @@ namespace DataAccessWithSql
                 .ToList()
                 .ForEach(Console.WriteLine);
         }
+
         /// <summary>
         /// Prints first name, last name and total money spent of all CustomerSpender
         /// </summary>
@@ -167,6 +180,7 @@ namespace DataAccessWithSql
                 .ToList()
                 .ForEach(Console.WriteLine);
         }
+
         /// <summary>
         /// Prints first name, last name, genre and amount of times songs of the genre have been bought
         /// </summary>
