@@ -42,21 +42,21 @@ namespace DataAccessWithSql
             //Task 2
             static void TestSelect(ICustomerRepository repository)
             {
-                Console.WriteLine("TestSelect:");
+                Console.WriteLine("\n TestSelect:");
                 PrintCustomer(repository.GetCustomer("1"));
             }
 
             //Task 3
             static void TestSelectByName(ICustomerRepository repository, string name)
             {
-                Console.WriteLine("TestSelectByName:");
+                Console.WriteLine("\n TestSelectByName:");
                 PrintCustomer(repository.GetCustomerByName(name));
             }
 
             //Task 4
             static void TestSelectLimited(ICustomerRepository repository, int offset, int fetch)
             {
-                Console.WriteLine("TestSelectLimited:");
+                Console.WriteLine("\n TestSelectLimited:");
                 PrintCustomers(repository.GetLimitedCustomers(offset, fetch));
 
             }
@@ -64,7 +64,7 @@ namespace DataAccessWithSql
             //Task 5
             static void TestInsert(ICustomerRepository repository)
             {
-                Console.WriteLine("TestInsert:");
+                Console.WriteLine("\n TestInsert:");
                 Customer testCustomer = new Customer()
                 {
                     FirstName = "Hans", 
@@ -87,7 +87,7 @@ namespace DataAccessWithSql
             //Task 6
             static void TestUpdate(ICustomerRepository repository)
             {
-                Console.WriteLine("TestUpdate:");
+                Console.WriteLine("\n TestUpdate:");
                 Customer test = new Customer()
                 {
                     CustomerId = 2,
@@ -112,21 +112,21 @@ namespace DataAccessWithSql
             //Task 7
             static void TestDescendingCountries(ICustomerCountryRepository repository)
             {
-                Console.WriteLine("TestDescendingCountries:");
+                Console.WriteLine("\n TestDescendingCountries:");
                 PrintCustomerCountry(repository.GetCountriesDescendingOrder());
             }
 
             //Task 8
             static void TestHighSpenders(ICustomerSpenderRepository repository)
             {
-                Console.WriteLine("TestHighSpenders:");
+                Console.WriteLine("\n TestHighSpenders:");
                 PrintCustomerSpender(repository.GetHighSpenders());
             }
 
             //Task 9
             static void TestCustomerGenre(ICustomerGenreRepository repository)
             {
-                Console.WriteLine("TestCustomerGenre:");
+                Console.WriteLine("\n TestCustomerGenre:");
                 PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("1"));
                 PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("12")); // Multiple favourite genres
             }
