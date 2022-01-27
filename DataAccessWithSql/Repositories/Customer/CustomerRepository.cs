@@ -61,8 +61,7 @@ namespace DataAccessWithSql.Repositories
                 "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
                 "FROM Customer " +
                 "ORDER BY CustomerId " +
-                "OFFSET {offset} ROWS " +
-                "FETCH NEXT {fetch} ROWS ONLY";
+                $"OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY";
             try
             {
                 //Connect
@@ -72,6 +71,8 @@ namespace DataAccessWithSql.Repositories
                     //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
+                        cmd.Parameters.AddWithValue("@Offset", offset);
+                        cmd.Parameters.AddWithValue("@Fetch", fetch);
                         //Reader
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -117,8 +118,8 @@ namespace DataAccessWithSql.Repositories
                     //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        //Reader
                         cmd.Parameters.AddWithValue("@CustomerId", id);
+                        //Reader
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -159,8 +160,8 @@ namespace DataAccessWithSql.Repositories
                     //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        //Reader
                         cmd.Parameters.AddWithValue("@FirstName", name + "%");
+                        //Reader
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())

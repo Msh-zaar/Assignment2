@@ -13,13 +13,15 @@ namespace DataAccessWithSql
             //CRUD
             //Create Read Update Delete
 
+            //Repositories
             ICustomerRepository repository = new CustomerRepository();
             ICustomerCountryRepository countryRepository = new CustomerCountryRepository();
             ICustomerSpenderRepository customerSpenderRepository = new CustomerSpenderRepository();
             ICustomerGenreRepository customerGenreRepository = new CustomerGenreRepository();
 
-            TestSelect(repository);
+            //Calling test methods
             TestSelectAll(repository);
+            TestSelect(repository);
             TestSelectByName(repository, "Hel");
             TestSelectLimited(repository, 2, 5);
             TestInsert(repository);
@@ -28,15 +30,16 @@ namespace DataAccessWithSql
             TestHighSpenders(customerSpenderRepository);
             TestCustomerGenre(customerGenreRepository);
 
-            static void TestSelect(ICustomerRepository repository)
-            {
-                Console.WriteLine("TestSelect:");
-                PrintCustomer(repository.GetCustomer("1"));
-            }
+            //Test method bodies
             static void TestSelectAll(ICustomerRepository repository)
             {
                 Console.WriteLine("TestSelectAll:");
                 PrintCustomers(repository.GetAllCustomers());
+            }
+            static void TestSelect(ICustomerRepository repository)
+            {
+                Console.WriteLine("TestSelect:");
+                PrintCustomer(repository.GetCustomer("1"));
             }
             static void TestSelectLimited(ICustomerRepository repository, int offset, int fetch)
             {
@@ -49,7 +52,6 @@ namespace DataAccessWithSql
                 Console.WriteLine("TestSelectByName:");
                 PrintCustomer(repository.GetCustomerByName(name));
             }
-
             static void TestInsert(ICustomerRepository repository)
             {
                 Console.WriteLine("TestInsert:");
@@ -71,7 +73,6 @@ namespace DataAccessWithSql
                     Console.WriteLine("Insert Failed!");
                 }
             }
-
             static void TestUpdate(ICustomerRepository repository)
             {
                 Console.WriteLine("TestUpdate:");
@@ -95,24 +96,21 @@ namespace DataAccessWithSql
                     Console.WriteLine("Update Failed!");
                 }
             }
-
-            static void TestCustomerGenre(ICustomerGenreRepository repository)
-            {
-                Console.WriteLine("TestCustomerGenre:");
-                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("1"));
-                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("12")); // Multiple favourite genres
-            }
-
             static void TestDescendingCountries(ICustomerCountryRepository repository)
             {
                 Console.WriteLine("TestDescendingCountries:");
                 PrintCustomerCountry(repository.GetCountriesDescendingOrder());
             }
-
             static void TestHighSpenders(ICustomerSpenderRepository repository)
             {
-                Console.WriteLine("TestHighSpenders");
+                Console.WriteLine("TestHighSpenders:");
                 PrintCustomerSpender(repository.GetHighSpenders());
+            }
+            static void TestCustomerGenre(ICustomerGenreRepository repository)
+            {
+                Console.WriteLine("TestCustomerGenre:");
+                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("1"));
+                PrintCustomerGenre(repository.GetMostPopularGenreForCustomer("12")); // Multiple favourite genres
             }
         }
         static void PrintCustomers(IEnumerable<Customer> customers)
@@ -132,7 +130,6 @@ namespace DataAccessWithSql
                                 $"{customer.Phone} " +
                                 $"{customer.Email}");
         }
-        
         static void PrintCustomerCountry(List<CustomerCountry> customerCountry)
         {
             customerCountry.Select(i => $"{i.Name}: {i.Count}")
