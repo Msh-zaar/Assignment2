@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DataAccessWithSql.Repositories
 {
     public class CustomerRepository : ICustomerRepository
-    {
+    {   
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerlist = new List<Customer>();
@@ -61,7 +61,7 @@ namespace DataAccessWithSql.Repositories
                 "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
                 "FROM Customer " +
                 "ORDER BY CustomerId " +
-                $"OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY";
+                "OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY";
             try
             {
                 //Connect
@@ -144,7 +144,7 @@ namespace DataAccessWithSql.Repositories
             return customer;
 
         }
-        Customer ICustomerRepository.GetCustomerByName(string name)
+        public Customer GetCustomerByName(string name)
         {
             Customer customer = new Customer();
             string sql = 
