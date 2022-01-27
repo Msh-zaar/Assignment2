@@ -13,18 +13,19 @@ namespace DataAccessWithSql.Repositories
         public List<CustomerSpender> GetHighSpenders()
         {
             List<CustomerSpender> spenders = new List<CustomerSpender>();
-            string sql = "SELECT Total, Customer.FirstName, Customer.LastName " +
-                        "FROM Invoice " +
-                        "INNER JOIN Customer " +
-                        "ON Invoice.CustomerId = Customer.CustomerId " +
-                        "ORDER BY Total DESC ";
+            string sql = 
+                "SELECT Total, Customer.FirstName, Customer.LastName " +
+                "FROM Invoice " +
+                "INNER JOIN Customer " +
+                "ON Invoice.CustomerId = Customer.CustomerId " +
+                "ORDER BY Total DESC ";
             try
             {
                 //Connect
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         //Reader

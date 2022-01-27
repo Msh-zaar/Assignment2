@@ -14,17 +14,18 @@ namespace DataAccessWithSql.Repositories
         {
             List<CustomerCountry> countries = new List<CustomerCountry>();
 
-            string sql = "SELECT Country, count(*) as Count " +
-                        "FROM Customer " +
-                        "GROUP BY Country " +
-                        "ORDER BY Count DESC";
+            string sql = 
+                "SELECT Country, count(*) as Count " +
+                "FROM Customer " +
+                "GROUP BY Country " +
+                "ORDER BY Count DESC";
             try
             {
                 //Connect
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         //Reader

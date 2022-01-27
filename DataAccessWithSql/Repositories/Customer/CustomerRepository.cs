@@ -13,7 +13,9 @@ namespace DataAccessWithSql.Repositories
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerlist = new List<Customer>();
-            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer ";
+            string sql = 
+                "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                "FROM Customer ";
             try
             {
                 //Connect
@@ -55,8 +57,12 @@ namespace DataAccessWithSql.Repositories
         public List<Customer> GetLimitedCustomers(int offset, int fetch)
         {
             List<Customer> customerlist = new List<Customer>();
-            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " +
-                $"ORDER BY CustomerId OFFSET {offset} ROWS FETCH NEXT {fetch} ROWS ONLY";
+            string sql = 
+                "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                "FROM Customer " +
+                "ORDER BY CustomerId " +
+                "OFFSET {offset} ROWS " +
+                "FETCH NEXT {fetch} ROWS ONLY";
             try
             {
                 //Connect
@@ -230,8 +236,7 @@ namespace DataAccessWithSql.Repositories
                 using (SqlConnection conn = new SqlConnection(ConnectionStringHelper.GetConnectionString()))
                 {
                     conn.Open();
-                    Console.WriteLine("open");
-                    //Make a command
+                    //Command
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@CustomerId", customer.CustomerId);

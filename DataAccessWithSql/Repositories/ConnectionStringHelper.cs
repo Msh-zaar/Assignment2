@@ -9,6 +9,10 @@ namespace DataAccessWithSql.Repositories
 {
     public class ConnectionStringHelper
     {
+        /// <summary>
+        /// Method that sets up a connection string based on SqlConnectionStringBuilder
+        /// </summary>
+        /// <returns>A ConnectionString</returns>
         public static string GetConnectionString()
         {
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder();
